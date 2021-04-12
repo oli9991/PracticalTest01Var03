@@ -2,7 +2,10 @@ package ro.pub.cs.systems.eim.practicaltest01var03;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,6 +26,8 @@ public class PracticalTest01Var03MainActivity extends AppCompatActivity {
     private Button minus;
     private TextView total;
     private Button secondActivity;
+
+    private IntentFilter intentFilter = new IntentFilter();
 
     private class ButtonClickListener implements Button.OnClickListener {
 
@@ -61,6 +66,11 @@ public class PracticalTest01Var03MainActivity extends AppCompatActivity {
                         result = Integer.parseInt(firstNumber.getText().toString()) - Integer.parseInt(secondNumber.getText().toString());
                     }
                     total.setText(firstNumber.getText().toString() + " " + ((Button) view).getText().toString() + " " + secondNumber.getText().toString() + " = " + result);
+
+                    Intent intent = new Intent(getApplicationContext(), PracticalTest01Var03Service.class);
+                    intent.putExtra("first", firstNumber.getText().toString());
+                    intent.putExtra("second", secondNumber.getText().toString());
+                    getApplicationContext().startService(intent);
                 }
             }
         }
@@ -84,6 +94,33 @@ public class PracticalTest01Var03MainActivity extends AppCompatActivity {
         } else {
             Log.d("restoring", "No entry was saved!");
         }
+    }
+
+    private MessageBroadcastReceiver messageBroadcastReceiver = new MessageBroadcastReceiver();
+    private class MessageBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("service", intent.getStringExtra("service_extra"));
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(messageBroadcastReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(messageBroadcastReceiver);
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Intent intent = new Intent(this, PracticalTest01Var03Service.class);
+        stopService(intent);
+        super.onDestroy();
     }
 
 
