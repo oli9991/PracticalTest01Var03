@@ -40,6 +40,7 @@ public class ProcessingThread extends Thread {
         intent.putExtra("service_extra",
                 new Date(System.currentTimeMillis()) + " " + minus);
         context.sendBroadcast(intent);
+
         Log.d("service", "Thread has stopped!");
     }
 

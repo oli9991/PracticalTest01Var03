@@ -141,6 +141,9 @@ public class PracticalTest01Var03MainActivity extends AppCompatActivity {
         plus.setOnClickListener(buttonClickListener);
         minus.setOnClickListener(buttonClickListener);
         secondActivity.setOnClickListener(buttonClickListener);
+
+        intentFilter.addAction("ro.pub.cs.systems.eim.practicaltest01.plus");
+        intentFilter.addAction("ro.pub.cs.systems.eim.practicaltest01.minus");
     }
 
     @Override
