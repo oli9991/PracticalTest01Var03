@@ -29,14 +29,14 @@ public class ProcessingThread extends Thread {
     public void run() {
         Log.d("service", "Thread has started! PID: " + Process.myPid() + " TID: " + Process.myTid());
         Intent intent = new Intent();
-        intent.setAction("action");
+        intent.setAction("ro.pub.cs.systems.eim.practicaltest01.plus");
         intent.putExtra("service_extra",
                 new Date(System.currentTimeMillis()) + " " + sum);
         context.sendBroadcast(intent);
 
         sleep();
 
-        intent.setAction("action");
+        intent.setAction("ro.pub.cs.systems.eim.practicaltest01.minus");
         intent.putExtra("service_extra",
                 new Date(System.currentTimeMillis()) + " " + minus);
         context.sendBroadcast(intent);
